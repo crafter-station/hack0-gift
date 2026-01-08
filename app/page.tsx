@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState, useRef } from "react";
 import { Indie_Flower } from "next/font/google";
-import { Heart, Sparkles, Gift, X } from "lucide-react";
+import { Heart, Sparkles, Gift, X, Linkedin, Download } from "lucide-react";
 
 const indieFlower = Indie_Flower({
   weight: "400",
@@ -55,6 +55,25 @@ export default function CrafterPage() {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+  };
+
+  const handleDownloadImage = () => {
+    if (!image) return;
+
+    const link = document.createElement("a");
+    link.href = image;
+    link.download = `valentine-card-${Date.now()}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleShareLinkedIn = () => {
+    const text = encodeURIComponent(
+      "Check out my Valentine's card! 💝 #ValentineDay #CrafterStation",
+    );
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
+    window.open(url, "_blank", "width=600,height=600");
   };
 
   const PaperWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -170,10 +189,22 @@ export default function CrafterPage() {
             </p>
           )}
 
-          <button className="mt-4 py-3 px-8 bg-rose-500 text-white rounded-xl flex items-center gap-2 shadow-[0_4px_0_0_#be123c] active:translate-y-1 active:shadow-[0_2px_0_0_#be123c] transition-all">
-            <Gift className="w-4 h-4" />
-            Download Card
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3 mt-4 w-full max-w-sm px-4">
+            <button
+              onClick={handleShareLinkedIn}
+              className="flex-1 py-3 px-6 bg-[#0077B5] text-white rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_0_0_#005885] active:translate-y-1 active:shadow-[0_2px_0_0_#005885] transition-all"
+            >
+              <Linkedin className="w-4 h-4" />
+              Share on LinkedIn
+            </button>
+            <button
+              onClick={handleDownloadImage}
+              className="flex-1 py-3 px-6 bg-rose-500 text-white rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_0_0_#be123c] active:translate-y-1 active:shadow-[0_2px_0_0_#be123c] transition-all"
+            >
+              <Download className="w-4 h-4" />
+              Download Image
+            </button>
+          </div>
         </div>
 
         <footer className="absolute bottom-4 left-14 right-4 text-rose-400 text-sm flex items-center gap-1">
